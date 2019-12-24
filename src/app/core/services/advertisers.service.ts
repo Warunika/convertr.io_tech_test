@@ -12,24 +12,25 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root'
 })
 export class AdvertisersService {
-  advertisersApiURL: string = environment.API_BASE_URL + '/advertisers';
-  addressApiURL: string = environment.API_BASE_URL + '/addresses'
+  apiBaseUrl: string = environment.API_BASE_URL;
+  advertisersApiURL: string = this.apiBaseUrl + '/advertisers';
+  addressApiURL: string = this.apiBaseUrl + '/addresses'
 
   constructor(private http: HttpClient) { }
 
   public getAdvertisers(): Observable<HttpResponse<Advertiser[]>> {
-    return this.http.get<Advertiser[]>(this.advertisersApiURL, { observe: 'response' });
+    return this.http.get<Advertiser[]>(this.advertisersApiURL, { observe: 'response'});
   }
 
   public getAddresseByAdvertiser(addressUrl: string): Observable<HttpResponse<Address>> {
-    return this.http.get<Address>(environment.API_BASE_URL + addressUrl, { observe: 'response' })
+    return this.http.get<Address>(this.apiBaseUrl + addressUrl, { observe: 'response'})
   }
 
-  public createAddress(address: Address): Observable<Address> {
-    return this.http.post<Address>(this.addressApiURL, address);
+  public createAddress(address: Address): Observable<HttpResponse<Address>> {
+    return this.http.post<Address>(this.addressApiURL, address, { observe: 'response'});
   }
 
-  public createAdvertiser(advertiser: Advertiser): Observable<Advertiser> {
-    return this.http.post<Advertiser>(this.advertisersApiURL, advertiser);
+  public createAdvertiser(advertiser: Advertiser): Observable<HttpResponse<Advertiser>> {
+    return this.http.post<Advertiser>(this.advertisersApiURL, advertiser, { observe: 'response'});
   }
 }

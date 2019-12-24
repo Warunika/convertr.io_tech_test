@@ -9,7 +9,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./view.component.scss']
 })
 export class ViewComponent implements OnInit {
-  advertisers: Advertiser[];
+  advertisers: Advertiser[] = [];
 
   constructor(
     private _advertiserService: AdvertisersService,
@@ -23,7 +23,8 @@ export class ViewComponent implements OnInit {
   getAdvertisers() {
     this._advertiserService.getAdvertisers().subscribe(
       data => {
-        this.advertisers = data.body["hydra:member"];
+        console.log(data);
+        this.advertisers = data.body['hydra:member'];
         this.getAddress();
       }, error => {
         this.toastr.error(error.message, 'Error');
